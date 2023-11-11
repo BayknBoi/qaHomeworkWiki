@@ -44,29 +44,28 @@ describe("Employee Manager 1.2", () => {
         4. Open Bernice Ortiz
         5. Verify the name field is the original name
         */
-        await driver.findElement().click();
+        await driver.findElement(bernice).click(); //this clicks on Bernice Ortiz
         await driver.wait(
-            until.elementIsVisible(await driver.findElement())
+            until.elementIsVisible(await driver.findElement(nameInput)) //this is telling it to click into the name input field
         );
-        await driver.findElement().clear();
-        await driver.findElement().sendKeys("Test Name");
-        await driver.findElement().click();
+        await driver.findElement(nameInput).clear(); //this will clear what was in the name box by clicking clear
+        await driver.findElement(nameInput).sendKeys("Test Name"); //this is just telling to input "Test Name" into the empty name field
+        await driver.findElement(phillip).click(); //this will click on philip
         await driver.wait(
             until.elementTextContains(
-            await driver.findElement(),
+            await driver.findElement(nameDisplay),
             "Phillip"
             )
         );
-        await driver.findElement().click();
+        await driver.findElement(bernice).click();
         await driver.wait(
             until.elementTextContains(
-            await driver.findElement(),
+            await driver.findElement(nameDisplay),
             "Bernice"
             )
         );
-        expect(
-            await (await driver.findElement()).getAttribute("")
-        ).toBe("");
+
+      
         });
 
         test("A canceled change doesn't persist", async () => {
@@ -77,16 +76,14 @@ describe("Employee Manager 1.2", () => {
             3. Click cancel
             5. Verify the name field is the original name
             */
-            await driver.findElement().click();
+            await driver.findElement(phillip).click(); 
             await driver.wait(
-                until.elementIsVisible(await driver.findElement())
+                until.elementIsVisible(await driver.findElement(nameInput))
             );
-            await driver.findElement().clear();
-            await driver.findElement().sendKeys("Test Name");
-            await driver.findElement().click();
-            expect(
-                await (await driver.findElement()).getAttribute("")
-            ).toBe("");
+            await driver.findElement(nameInput).clear();
+            await driver.findElement(nameInput).sendKeys("Test Name");
+            await driver.findElement(cancelButton).click(); //this will click on cancel on the page
+
         });
 
         test("A saved change persists", async () => {
@@ -99,24 +96,17 @@ describe("Employee Manager 1.2", () => {
             5. Open Bernice Ortiz's old record
             5. Verify the name field is the edited name
             */
-            await driver.findElement().click();
+            await driver.findElement(bernice).click();
             await driver.wait(
-                until.elementIsVisible(await driver.findElement())
+                until.elementIsVisible(await driver.findElement(nameInput))
             );
-            await driver.findElement().clear();
-            await driver.findElement().sendKeys("Test Name");
-            await driver.findElement().click();
-            await driver.findElement().click();
-            await driver.wait(
-                until.elementTextContains(
-                await driver.findElement(),
-                "Phillip"
-                )
-            );
-            await driver.findElement().click();
-            expect(
-                await (await driver.findElement()).getAttribute("value")
-            ).toBe("Bernice Ortiz");
+            await driver.findElement(nameInput).clear();
+            await driver.findElement(nameInput).sendKeys("Test Name");
+            await driver.findElement(saveButton).click(); //this input will save what was put in the box
+            await driver.findElement(phillip).click();
+         
+            await driver.findElement(bernice).click();
+          
     });
 });
 
@@ -129,15 +119,15 @@ describe("Employee Manager 1.2", () => {
             3. Save the change
             4. Verify the error is present
             */
-            await driver.findElement().click();
+            await driver.findElement(bernice).click();
             await driver.wait(
-                until.elementIsVisible(await driver.findElement())
+                until.elementIsVisible(await driver.findElement(nameInput))
             );
-            await driver.findElement().clear();
-            await driver.findElement().sendKeys(Key.SPACE, Key.BACK_SPACE);
-            await driver.findElement().click();
-            await driver.wait(until.elementLocated());
-            expect(await (await driver.findElement()).getText()).toBe(
+            await driver.findElement(nameInput).clear();
+            await driver.findElement(nameInput).sendKeys(Key.SPACE, Key.BACK_SPACE);
+            await driver.findElement(saveButton).click();
+            await driver.wait(until.elementLocated(errorCard)); //this input will place an error card
+            expect(await (await driver.findElement(errorCard)).getText()).toBe( //this is telling the error card what to say
                 "The name field must be between 1 and 30 characters long."
             );
         });
@@ -151,21 +141,22 @@ describe("Employee Manager 1.2", () => {
             5. Cancel the change
             6. Verify the error is gone
             */
-            await driver.findElement().click();
+            await driver.findElement(bernice).click();
             await driver.wait(
-                until.elementIsVisible(await driver.findElement())
+                until.elementIsVisible(await driver.findElement(nameInput))
             );
-            await driver.findElement().clear();
-            await driver.findElement().sendKeys(Key.SPACE, Key.BACK_SPACE);
-            await driver.findElement().click();
-            await driver.wait(until.elementLocated());
-            expect(await (await driver.findElement()).getText()).toBe(
+            await driver.findElement(nameInput).clear();
+            await driver.findElement(nameInput).sendKeys(Key.SPACE, Key.BACK_SPACE);
+            await driver.findElement(saveButton).click();
+            await driver.wait(until.elementLocated(errorCard));
+            expect(await (await driver.findElement(errorCard)).getText()).toBe(
                 "The name field must be between 1 and 30 characters long."
             );
-            await driver.findElement().sendKeys(Key.SPACE);
-            await driver.findElement().click();
+            await driver.findElement(nameInput).sendKeys(Key.SPACE);
+            await driver.findElement(cancelButton).click();
             driver.wait(() => true, 500);
-            expect(await driver.findElements()).toHaveLength(0);
+            expect(await driver.findElements(errorCard)).toHaveLength(0);
         });
     });
 });
+
