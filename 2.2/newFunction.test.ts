@@ -1,5 +1,5 @@
 //!Here we are importing our function called myFunciton from our newFunction.ts file so we can use it in our test.
-import { myFunction } from "./newFunction";
+import { myFunction } from "./newFunction.ts";
 
 describe("myFunction", () => {
   it("returns the word 'true' if I pass the function the number 5", () => {
@@ -17,10 +17,10 @@ describe("myFunction", () => {
 });
 
 
-import { blockBuster } from "./newFunction";
+import { blockBuster } from "./newFunction.ts";
 
 describe('Testing Block Buster', () => {
-  it('should return the movie set for MovieOne', () => {
+  it('should return the movie set for movie one', () => {
     expect(blockBuster()).toBe(""); 
   }); 
   it("should return the movie set for movie two", () => {
