@@ -18,6 +18,27 @@ class Animal {
    * @param {string} food - as expected
    * @param {string} saltwater - true if the fish is a saltwater fish
    */
+  class Fish extends Animal {
+    saltwater: boolean;
+    // As required, has the name, food, and saltwater parameters
+    constructor(name: string, food: string, saltwater: boolean) {
+      // Passes the parent (Animal) constructor its three parameters, where
+      // `sound` is `null`, as the Fish class doesn't use that property.
+      super(name, null, food);
+      this.saltwater = saltwater;
+    }
+    // Here we have the right format for the new soundOff
+    soundOff(): string {
+      return `The ${this.name} is a fish and does not make sounds.`;
+    }
+    // Here is the new habitat method, returning a string based on the `saltwater`
+    // property
+    habitat(): string {
+      return `The ${this.name} is a ${
+        this.saltwater ? "saltwater" : "freshwater"
+      } fish.`;
+    }
+  }
   
   /**
    * Bird extends Animal, but takes an additional property, and has an additional method, fly().
@@ -26,6 +47,22 @@ class Animal {
    * @param {string} food - as expected
    * @param {number} flightSpeed - the flight speed of the bird, in meters/second. This should be 0 for flightless birds.
    */
+  class Bird extends Animal {
+    flightSpeed: number;
+    // this constructor takes one more parameter than Animal, flightSpeed
+    constructor(name: string, sound: string, food: string, flightSpeed: number) {
+      // we use Animal's constructor for 3 of our 4 parameters
+      super(name, sound, food);
+      this.flightSpeed = flightSpeed;
+    }
+    // we only need to define the ONE new method; fly, that returns the correct
+    // string for flying or flightless birds
+    fly(): string {
+      if (this.flightSpeed > 0)
+        return `The ${this.name} flies at speeds of up to ${this.flightSpeed} meters per second!`;
+      else return `The ${this.name} is a flightless bird.`;
+    }
+  }
   
   describe("Testing animals", () => {
     test("a basic animal works as expected", () => {
